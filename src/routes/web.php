@@ -23,6 +23,14 @@ Route::get(
     [QuizController::class, 'index']
 );
 
+// Route::resource('questions', QuestionController::class)->middleware(['auth', 'verified']);
+
+Route::get(
+    '/questions', function () {
+        return view('admin.index');
+    }
+);
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
