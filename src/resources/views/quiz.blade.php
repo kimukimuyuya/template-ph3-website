@@ -97,7 +97,7 @@
                             </h2>
                             <div class="p-quiz-box__question__image">
                                 {{-- <img src="{{ asset('img/quiz/' . $question->image) }}" alt=""> --}}
-                                <img src="{{ asset('storage/img/' . $question->image) }}" alt="">
+                                <img src="{{ asset('storage/img/' . $question->image) }}" alt="できない">
                             </div>
                         </div>
                         <div class="p-quiz-box__answer">
