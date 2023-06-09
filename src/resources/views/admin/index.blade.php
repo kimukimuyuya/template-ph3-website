@@ -49,9 +49,11 @@
                                         </td>
                                         {{-- <td class="px-6 py-4 whitespace-nowrap text-center"><button class="px-2 py-1 text-blue-500 border border-blue-500 font-semibold rounded hover:bg-blue-100"><a href="#">詳細</a></button></td> --}}
                                         <td class="px-6 py-4 whitespace-nowrap text-center">
-                                            <button class="px-2 py-1 text-red-500 border border-red-500 font-semibold rounded hover:bg-red-100">
-                                                <a href="#" onclick="return confirmLink()">削除</a>
-                                            </button>
+                                            <form method="POST" action="{{route('questions.destroy',['question'=>$question->id])}}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="px-2 py-1 text-red-500 border border-red-500 font-semibold rounded hover:bg-red-100" onclick="return confirmLink()">削除</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

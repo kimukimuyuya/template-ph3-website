@@ -59,6 +59,8 @@ class QuestionController extends Controller
     public function edit(string $id)
     {
         //
+        $question = Question::find($id);
+        return view('admin.edit', compact('question'));
     }
 
     /**
@@ -67,6 +69,18 @@ class QuestionController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $question = Question::find($id);
+        $file = $request->file('image');
+        if($file) {
+            $fileName = $file->getClientOriginalName();
+            $file->storeAs('public/img',$fileName);
+            $question->image = $fileName;
+        }
+        $question->content = $request->input('content');
+        $question->supplement = $request->input('supplement');
+        $question->save();
+        return redirect()->route('questions.index');
+
     }
 
     /**
@@ -75,5 +89,8 @@ class QuestionController extends Controller
     public function destroy(string $id)
     {
         //
+        $question = Question::find($id);
+        $question->delete();
+        return redirect()->route('questions.index');
     }
 }
