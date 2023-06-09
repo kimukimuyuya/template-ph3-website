@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\QuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +25,11 @@ Route::get(
     [QuizController::class, 'index']
 );
 
-Route::get('questions', function () {
-    return view('admin.index');
-});
+// Route::get('questions', function () {
+//     return view('admin.index');
+// });
+
+Route::resource('questions', QuestionController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
