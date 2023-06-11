@@ -16,20 +16,23 @@ use App\Http\Controllers\QuestionController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get(
-    '/quiz',
+    '/',
     [QuizController::class, 'index']
 );
 
+Route::get('welcome', function () {
+    return view('welcome');
+});
 // Route::get('questions', function () {
 //     return view('admin.index');
 // });
 
-Route::resource('questions', QuestionController::class);
+Route::resource('questions', QuestionController::class)->middleware('auth', 'verified');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

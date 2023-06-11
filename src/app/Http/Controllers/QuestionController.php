@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Question;
+use App\Models\Choice;
+
 
 
 class QuestionController extends Controller
@@ -35,13 +37,26 @@ class QuestionController extends Controller
         //
         if($file = $request->file('image')) {
             $fileName = $file->getClientOriginalName();
-            $file->storeAs('public/img',$fileName);
+            $file->storeAs('public',$fileName);
         }
         $question = new Question();
+        $validatedData = $request->validate([
+            'content' => 'max:255',
+        ]);
         $question->content = $request->input('content');
         $question->image = $fileName;
         $question->supplement = $request->input('supplement');
         $question->save();
+
+        for($i = 0; $i < 3; $i++) {
+            $choice = new Choice();
+            $choice->question_id = $question->id;
+            $choice->name = $request->input('choice')[$i];
+            $choice->valid = (int)$request->input('correctChoice') === $i + 1 ? 1 : 0;
+            $choice->save();
+        }
+
+        session()->flash('message', '問題作成に成功しました');
         return redirect()->route('questions.index');
     }
 
@@ -79,6 +94,15 @@ class QuestionController extends Controller
         $question->content = $request->input('content');
         $question->supplement = $request->input('supplement');
         $question->save();
+
+        $choice = Choice::where('question_id', $id)->get();
+        for($i = 0; $i < 3; $i++) {
+            $choice[$i]->name = $request->input('choice')[$i];
+            $choice[$i]->valid = (int)$request->input('correctChoice') === $i + 1 ? 1 : 0;
+            $choice[$i]->save();
+        }
+
+        session()->flash('message', '更新されました');
         return redirect()->route('questions.index');
 
     }
@@ -91,6 +115,8 @@ class QuestionController extends Controller
         //
         $question = Question::find($id);
         $question->delete();
+
+        session()->flash('message', '削除されました');
         return redirect()->route('questions.index');
     }
 }

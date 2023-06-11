@@ -12,41 +12,55 @@
 
 </head>
 
-<body>
-    <div class="container mx-auto py-10">
-        <div class="flex flex-col">
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('管理者画面') }}
+        </h2>
+    </x-slot>
+    
+    <body>
+        <div class="container mx-auto py-10">
+            <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    @if (session('message'))
+                    <div class="text-blue-500 text-2xl px-4 py-3 mb-3 rounded relative" role="alert">
+                        <span class="block sm:inline">{{ session('message') }}</span>
+                    </div>
+                    @endif
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col"
-                                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider ">
-                                        問題番号</th>
+                                    class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider ">
+                                    問題番号</th>
                                     <th scope="col"
-                                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        質問文</th>
+                                    class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    質問文</th>
                                     <th scope="col"
-                                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        編集</th>
+                                    class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    編集</th>
                                     <th scope="col"
                                         class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         削除</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-
+                                
                                 @foreach ($questions as $question)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-center">{{ $question->id }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-center">{{ $question->content }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-center">
-                                            <button class="px-2 py-1 text-green-500 border border-green-500 font-semibold rounded hover:bg-green-100">
-                                                <a href="#">編集</a>
-                                            </button>
-                                        </td>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center">{{ $question->id }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center">{{ $question->content }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center">                                          
+                                        <form method="POST" action="{{route('questions.edit',['question'=>$question->id])}}">
+                                            @csrf
+                                            @method('GET')
+                                            <button type="submit" class="px-2 py-1 text-green-500 border border-green-500 font-semibold rounded hover:bg-green-100">編集</button>
+                                        </form>
+                                    </td>
                                         {{-- <td class="px-6 py-4 whitespace-nowrap text-center"><button class="px-2 py-1 text-blue-500 border border-blue-500 font-semibold rounded hover:bg-blue-100"><a href="#">詳細</a></button></td> --}}
                                         <td class="px-6 py-4 whitespace-nowrap text-center">
                                             <form method="POST" action="{{route('questions.destroy',['question'=>$question->id])}}">
@@ -72,3 +86,4 @@
 </body>
 
 </html>
+</x-app-layout>

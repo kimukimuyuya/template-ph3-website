@@ -46,6 +46,9 @@
                         <li class="p-header__nav__item">
                             <a href="./" class="p-header__nav__item__link">クイズ</a>
                         </li>
+                        <li class="p-header__nav__item">
+                            <a href="{{route('questions.index')}}" class="p-header__nav__item__link">管理者画面</a>
+                        </li>
                     </ul>
                 </nav>
                 <div class="p-header__official">
@@ -97,7 +100,7 @@
                             </h2>
                             <div class="p-quiz-box__question__image">
                                 {{-- <img src="{{ asset('img/quiz/' . $question->image) }}" alt=""> --}}
-                                <img src="{{ asset('storage/img/' . $question->image) }}" alt="できない">
+                                <img src="{{ asset('storage/' . $question->image) }}" alt="できない">
                             </div>
                         </div>
                         <div class="p-quiz-box__answer">

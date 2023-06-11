@@ -1,6 +1,6 @@
 # template_ph3_website_private
 
-## 環境構築手法
+## 環境構築手法 まずbranchをrollbackに切り替えてください
 
 以下の内容を、.env.exampleと同じ階層に.envファイルを作成し、貼り付けてください。
 ```console
