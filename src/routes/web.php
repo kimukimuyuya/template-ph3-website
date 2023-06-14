@@ -16,10 +16,6 @@ use App\Http\Controllers\QuestionController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get(
     '/',
     [QuizController::class, 'index']
@@ -28,9 +24,6 @@ Route::get(
 Route::get('welcome', function () {
     return view('welcome');
 });
-// Route::get('questions', function () {
-//     return view('admin.index');
-// });
 
 Route::resource('questions', QuestionController::class)->middleware('auth', 'verified');
 

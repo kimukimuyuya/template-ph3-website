@@ -41,20 +41,24 @@ class QuestionController extends Controller
         }
         $question = new Question();
         $validatedData = $request->validate([
-            'content' => 'max:255',
+            'content' => 'max:255'|'required',
         ]);
         $question->content = $request->input('content');
         $question->image = $fileName;
         $question->supplement = $request->input('supplement');
         $question->save();
 
-        for($i = 0; $i < 3; $i++) {
+        for($i=1; $i<=3; $i++){
             $choice = new Choice();
             $choice->question_id = $question->id;
-            $choice->name = $request->input('choice')[$i];
-            $choice->valid = (int)$request->input('correctChoice') === $i + 1 ? 1 : 0;
+            $validate = $request->validate([
+                'choice'.$i => 'max:255'|'required',
+            ]);
+            $choice->name = $request->input('choice'.$i);
+            $choice->valid = (int)$request->input('correctChoice') === $i ? 1 : 0;
             $choice->save();
         }
+
 
         session()->flash('message', '問題作成に成功しました');
         return redirect()->route('questions.index');

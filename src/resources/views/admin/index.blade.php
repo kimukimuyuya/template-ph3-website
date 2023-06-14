@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>管理者画面</title>
-    <script src="../script/delete-confirm.js" defer></script>
     @vite('resources/css/app.css')
     <script src="{{ asset('js/delete-confirm.js') }}"></script>
 
@@ -66,7 +65,7 @@
                                             <form method="POST" action="{{route('questions.destroy',['question'=>$question->id])}}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="px-2 py-1 text-red-500 border border-red-500 font-semibold rounded hover:bg-red-100" onclick="return confirmLink()">削除</button>
+                                                <button type="submit" class="px-2 py-1 text-bule-200 border border-red-500 font-semibold rounded hover:bg-red-100" onclick="return confirmLink()">削除</button>
                                             </form>
                                         </td>
                                     </tr>
