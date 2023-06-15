@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\QuestionController;
+use App\Models\User;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,15 +19,19 @@ use App\Http\Controllers\QuestionController;
 */
 
 Route::get(
-    '/',
+    '/quiz',
     [QuizController::class, 'index']
-);
+)->middleware('auth', 'verified')->name('quiz');
 
-Route::get('welcome', function () {
+Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('questions', QuestionController::class)->middleware('auth', 'verified');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('user', [UserController::class, 'index'])->name('user.index');
+    Route::put('questions/{question}/restore', [QuestionController::class, 'restore'])->name('questions.restore');
+    Route::resource('questions', QuestionController::class);  
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

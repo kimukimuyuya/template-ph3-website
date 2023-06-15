@@ -53,20 +53,30 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-center">{{ $question->id }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center">{{ $question->content }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center">                                          
+                                    <td class="px-6 py-4 whitespace-nowrap text-center">
+                                        @if(!$question->trashed())
                                         <form method="POST" action="{{route('questions.edit',['question'=>$question->id])}}">
                                             @csrf
                                             @method('GET')
                                             <button type="submit" class="px-2 py-1 text-green-500 border border-green-500 font-semibold rounded hover:bg-green-100">編集</button>
                                         </form>
+                                        @endif
                                     </td>
                                         {{-- <td class="px-6 py-4 whitespace-nowrap text-center"><button class="px-2 py-1 text-blue-500 border border-blue-500 font-semibold rounded hover:bg-blue-100"><a href="#">詳細</a></button></td> --}}
                                         <td class="px-6 py-4 whitespace-nowrap text-center">
+                                            @if($question->trashed())
+                                            <form method="POST" action="{{route('questions.restore',['question'=>$question->id])}}">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="px-2 py-1 text-blue-500 border border-blue-500 font-semibold rounded hover:bg-blue-100">復元</button>
+                                            </form>
+                                            @else
                                             <form method="POST" action="{{route('questions.destroy',['question'=>$question->id])}}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="px-2 py-1 text-bule-200 border border-red-500 font-semibold rounded hover:bg-red-100" onclick="return confirmLink()">削除</button>
+                                                <button type="submit" class="px-2 py-1 text-red-500 border border-red-500 font-semibold rounded hover:bg-red-100" onclick="return confirmLink()">削除</button>
                                             </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -75,6 +85,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="mt-4">
+            {{ $questions->links() }}
         </div>
     </div>
     <div class="w-full text-center z-10 mb-10">

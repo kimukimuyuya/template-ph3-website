@@ -16,7 +16,7 @@ class QuestionController extends Controller
     public function index()
     {
         //
-        $questions = Question::all();
+        $questions = Question::withTrashed()->paginate(5);
         return view('admin.index', compact('questions'));
     }
 
@@ -41,7 +41,9 @@ class QuestionController extends Controller
         }
         $question = new Question();
         $validatedData = $request->validate([
-            'content' => 'max:255'|'required',
+            'content' => 'required|max:255',
+            'image' => 'required|image',
+            'supplement' => 'required|max:255',
         ]);
         $question->content = $request->input('content');
         $question->image = $fileName;
@@ -52,7 +54,7 @@ class QuestionController extends Controller
             $choice = new Choice();
             $choice->question_id = $question->id;
             $validate = $request->validate([
-                'choice'.$i => 'max:255'|'required',
+                'choice'.$i => 'required|max:255',
             ]);
             $choice->name = $request->input('choice'.$i);
             $choice->valid = (int)$request->input('correctChoice') === $i ? 1 : 0;
@@ -121,6 +123,16 @@ class QuestionController extends Controller
         $question->delete();
 
         session()->flash('message', '削除されました');
+        return redirect()->route('questions.index');
+    }
+
+    public function restore(string $id)
+    {
+        //
+        $question = Question::withTrashed()->find($id);
+        $question->restore();
+
+        session()->flash('message', '復元されました');
         return redirect()->route('questions.index');
     }
 }

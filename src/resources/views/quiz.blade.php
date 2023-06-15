@@ -47,7 +47,13 @@
                             <a href="./" class="p-header__nav__item__link">クイズ</a>
                         </li>
                         <li class="p-header__nav__item">
-                            <a href="{{route('questions.index')}}" class="p-header__nav__item__link">管理者画面</a>
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="p-header__nav__item__link">
+                                ログアウト
+                            </a>
+                            
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                @csrf
+                            </form>
                         </li>
                     </ul>
                 </nav>
