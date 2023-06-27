@@ -84,6 +84,27 @@ php artisan migrate:refresh --seed
 docker-compose exec node sh
 npm install
 npm run build
+```
 
 ## 以下のURLにアクセスして、画面が表示されたら成功です
 http://localhost
+
+
+## ログインについて
+
+ユーザー画面
+```console
+メールアドレス
+user@gmail.com
+パスワード
+user1
+```
+
+管理者画面
+```console
+メールアドレス
+admin@gmail.com
+パスワード
+password
+```
+
